@@ -1,14 +1,18 @@
 import './App.css';
-
-import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import Navbar from './components/Navbar';
+import News from './components/News';
 
 export default class App extends Component {
-  static propTypes = {}
 
   render() {
     return (
-      <div>hello from app.js</div>
+      <>
+      <Navbar/>
+      <div className="container w-75" style={{margin: "auto"}}>
+      <News/>
+      </div>
+      </>
     )
   }
 }
