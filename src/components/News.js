@@ -69,7 +69,7 @@ export default class News extends Component {
         
         <div className="container">
           <div className="row">
-          {this.state.articles.map((element)=>
+          {!this.state.loading && this.state.articles.map((element)=>
             {return <div className="col-md-4" key={element.url}>
             <NewsItem title={element.title!==null?element.title:""} context={element.description!==null?element.description:""} imageUrl={element.urlToImage!==null?element.urlToImage:"https://www.encompass-inc.com/wp-content/uploads/2019/07/july-2019-news-and-updates-encompass-solutions-Copy.jpg" } url={element.url} author={element.author} publishedAt={element.publishedAt} source={element.source}/>
             </div>}
@@ -77,8 +77,8 @@ export default class News extends Component {
           </div>
         </div>
         <div className="container d-flex justify-content-between">
-        <button type="button" className="btn btn-light my-3" onClick={this.handlePrevClick} disabled={this.state.page<=1}>&larr; Previous</button>
-        <button type="button" className="btn btn-light my-3" onClick={this.handleNextClick} disabled={this.state.page + 1 > Math.ceil(this.state.totalResults/30)}>Next &rarr;</button>
+        <button type="button" className="btn btn-primary my-3" onClick={this.handlePrevClick} disabled={this.state.page<=1}>&larr; Previous</button>
+        <button type="button" className="btn btn-primary my-3" onClick={this.handleNextClick} disabled={this.state.page + 1 > Math.ceil(this.state.totalResults/30)}>Next &rarr;</button>
         </div>
         </div>
     )
