@@ -7,7 +7,7 @@ import Loading from './Loading';
 export default class News extends Component {
 
   static defaultProps = {
-    country: 'us', 
+    country: 'in', 
     pageSize: 3, 
     category: 'general'
   }
@@ -40,24 +40,11 @@ export default class News extends Component {
     }
 
     async componentDidMount() { 
-      // let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=ada07c9b6102417db6a2b0f185fa084c&page=1&pageSize=30`;
-      // let data = await fetch(url);
-      // let parsedData = await data.json();
-      // this.setState({articles: parsedData.articles, totalResults: parsedData.totalResults, loading: false});
       this.updateNews();
     }
 
     handleNextClick = async () =>{
       if(!this.state.page + 1 <= Math.ceil(this.state.totalResults/30)){
-        // let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=ada07c9b6102417db6a2b0f185fa084c&page=${this.state.page+1}&pageSize=30`;
-        // this.setState({loading: true});
-        // let data = await fetch(url);
-        // let parsedData = await data.json();
-        // this.setState({
-        //   page : this.state.page + 1,
-        //   articles: parsedData.articles, 
-        //   loading : false
-        // });
         this.setState({
           page: this.state.page+1
         });
@@ -66,15 +53,6 @@ export default class News extends Component {
     }
 
     handlePrevClick = async ()=>{
-      // let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=ada07c9b6102417db6a2b0f185fa084c&page=${this.state.page-1}&pageSize=30`;
-      // this.setState({loading: true});
-      // let data = await fetch(url);
-      // let parsedData = await data.json();
-      // this.setState({
-      //   articles: parsedData.articles,
-      //   page : this.state.page - 1,
-      //   loading : false
-      // });
       this.setState({
         page: this.state.page-1
       });
