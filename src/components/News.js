@@ -3,6 +3,8 @@ import NewsItem from './NewsItem';
 import PropTypes from 'prop-types'
 import Loading from './Loading';
 import InfiniteScroll from "react-infinite-scroll-component";
+
+
  
 
 export default class News extends Component {
@@ -29,9 +31,8 @@ export default class News extends Component {
   }
     
   fetchMoreData = async() => {
-
+    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page+1}&pageSize=30`;
     this.setState({page: this.state.page+1});
-    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=ada07c9b6102417db6a2b0f185fa084c&page=${this.state.page}&pageSize=30`;
         let data = await fetch(url);
         let parsedData = await data.json();
         this.setState({
@@ -42,14 +43,17 @@ export default class News extends Component {
   };
 
     async updateNews(){
-      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=ada07c9b6102417db6a2b0f185fa084c&page=${this.state.page}&pageSize=30`;
+      this.props.setProgress(10);
+      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=30`;
         let data = await fetch(url);
         let parsedData = await data.json();
+        this.props.setProgress(50);
         this.setState({
           totalResults: parsedData.totalResults,
           articles: parsedData.articles, 
           loading: false      
         });
+        this.props.setProgress(100);
     }
 
     async componentDidMount() { 
@@ -57,7 +61,7 @@ export default class News extends Component {
     }
 
     handleNextClick = async () =>{
-      if(!this.state.page + 1 <= Math.ceil(this.state.totalResults/30)){
+      if(this.state.page + 1 < Math.ceil(this.state.totalResults/30)){
         this.setState({
           page: this.state.page+1
         });
@@ -76,14 +80,15 @@ export default class News extends Component {
   render() {   
     return (
       <>
-        <h2>Top Headlines</h2>
-        {this.state.loading && <Loading/>}
         <InfiniteScroll
           dataLength={this.state.articles.length}
           next={this.fetchMoreData}
           hasMore={this.state.articles.length < this.state.totalResults}
           loader={<Loading/>}
           >
+        <h2>Top Headlines</h2>
+        {this.state.loading && <Loading/>}
+        
         
           <div className="container">
           
@@ -93,7 +98,7 @@ export default class News extends Component {
           
           {this.state.articles.map((element)=>
             {return <div className="col-md-4" key={element.url}>
-            <NewsItem title={element.title!==null?element.title:""} context={element.description!==null?element.description:""} imageUrl={element.urlToImage!==null?element.urlToImage:"https://www.encompass-inc.com/wp-content/uploads/2019/07/july-2019-news-and-updates-encompass-solutions-Copy.jpg" } url={element.url} author={element.author} publishedAt={element.publishedAt} source={element.source}/>
+            <NewsItem title={element.title===null?"":element.title} context={element.description!==null?element.description:""} imageUrl={element.urlToImage!==null?element.urlToImage:"https://www.encompass-inc.com/wp-content/uploads/2019/07/july-2019-news-and-updates-encompass-solutions-Copy.jpg" } url={element.url} author={element.author===null?"":element.author} publishedAt={element.publishedAt} source={element.source}/>
             </div>}
           )}
           
